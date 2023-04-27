@@ -6,12 +6,12 @@ import os
 from tabulate import tabulate
 
 # Write model path
-TCP_model = joblib.load('C:/Users/rfmodel_trained_seq_chk_ack.joblib')
+TCP_model = joblib.load('rfmodel_trained_seq_chk_ack.joblib')
 TCP_model.feature_names = ['ip_id', 'tcp_seq', 'tcp_seq_raw', 'tcp_ack', 'tcp_ack_raw',
                  'tcp_len', 'tcp_hdr_len', 'tcp_flags_syn', 'tcp_flags_ack', 'tcp_checksum']
 
 # Write model path
-IP_model = joblib.load('C:/Users/decision_tree_trained.joblib')
+IP_model = joblib.load('decision_tree_trained.joblib')
 IP_model.feature_names = ['ip_id', 'ip_ttl', 'ip_checksum', 'ip_flags']
 
 
