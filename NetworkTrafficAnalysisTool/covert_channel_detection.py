@@ -6,7 +6,7 @@ import os
 from tabulate import tabulate
 import sys
 from os.path import dirname, realpath, join
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QWidget, QTableWidget, QTableWidgetItem, QFileDialog
 from PyQt5.uic import loadUiType
 
 # Write model path
@@ -88,7 +88,7 @@ class MainWindow(QWidget, From_Main):
 
     def OpenFile(self):
         try:
-            path = QFileDialog.getOpenFileName(self, 'Open PCAP', os.getenv('HOME'), 'PCAP(*.pcap)')[0]
+            path = QFileDialog.getOpenFileName(self, 'Open PCAP', os.getenv('HOME'), 'PCAP (*.pcapng *.pcap )')[0]
 
 
             if not os.path.isfile(path):
@@ -214,21 +214,21 @@ class MainWindow(QWidget, From_Main):
         self.tableWidget.resizeRowsToContents()
 
     def dataHead_ip(self):
-        numColomn = self.spinBox.value()
+        numColomn = self.spinBox_2.value()
         if numColomn == 0:
             NumRows = len(self.all_data_ip.index)
         else:
             NumRows = numColomn
-        self.tableWidget.setColumnCount(len(self.all_data_ip.columns))
-        self.tableWidget.setRowCount(NumRows)
-        self.tableWidget.setHorizontalHeaderLabels(self.all_data_ip.columns)
+        self.tableWidget_2.setColumnCount(len(self.all_data_ip.columns))
+        self.tableWidget_2.setRowCount(NumRows)
+        self.tableWidget_2.setHorizontalHeaderLabels(self.all_data_ip.columns)
 
         for i in range(NumRows):
             for j in range(len(self.all_data_ip.columns)):
-                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data_ip.iat[i, j])))
+                self.tableWidget_2.setItem(i, j, QTableWidgetItem(str(self.all_data_ip.iat[i, j])))
 
-        self.tableWidget.resizeColumnsToContents()
-        self.tableWidget.resizeRowsToContents()
+        self.tableWidget_2.resizeColumnsToContents()
+        self.tableWidget_2.resizeRowsToContents()
 
 
 app = QApplication(sys.argv)
