@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Covert Channel Detection</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -46,7 +46,7 @@ selection-background-color: rgb(255, 68, 21);
 border-color: rgb(255, 97, 100);</string>
        </property>
        <property name="text">
-        <string>Open pcap</string>
+        <string>Import Pcap</string>
        </property>
        <property name="icon">
         <iconset>
@@ -99,12 +99,18 @@ border-color: rgb(255, 97, 100);</string>
          <pointsize>13</pointsize>
         </font>
        </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;IP table&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab">
+        <property name="accessibleName">
+         <string/>
+        </property>
         <attribute name="title">
-         <string>Describe data</string>
+         <string>Tcp </string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="3">
@@ -134,14 +140,14 @@ border-color: rgb(255, 97, 100);</string>
             </font>
            </property>
            <property name="text">
-            <string>Describe</string>
+            <string>Print</string>
            </property>
           </widget>
          </item>
          <item row="0" column="2">
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>Rows</string>
+            <string>columns</string>
            </property>
           </widget>
          </item>
@@ -149,41 +155,17 @@ border-color: rgb(255, 97, 100);</string>
        </widget>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
-         <string>Plot Data</string>
+         <string>IP</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="1" column="0" colspan="2">
-          <widget class="QFrame" name="frame">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QComboBox" name="comboBox"/>
-         </item>
-         <item row="0" column="2">
-          <widget class="QComboBox" name="comboBox_3"/>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="pushButton">
-           <property name="font">
-            <font>
-             <pointsize>11</pointsize>
-            </font>
-           </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>Plot</string>
+            <string>columns</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox_2"/>
-         </item>
-         <item row="0" column="4">
+         <item row="1" column="3">
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -195,6 +177,19 @@ border-color: rgb(255, 97, 100);</string>
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="3" column="0" colspan="4">
+          <widget class="QTableWidget" name="tableWidget_2"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="spinBox_2"/>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="BtnDescribe1">
+           <property name="text">
+            <string>Print</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
