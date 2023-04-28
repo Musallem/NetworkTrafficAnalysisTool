@@ -83,7 +83,8 @@ class MainWindow(QWidget, From_Main):
         self.setupUi(self)
 
         self.ButtonOpen.clicked.connect(self.OpenFile)
-        self.BtnDescribe.clicked.connect(self.dataHead)
+        self.BtnDescribe.clicked.connect(self.dataHead_tcp)
+        self.BtnDescribe1.clicked.connect(self.dataHead_ip)
 
     def OpenFile(self):
         try:
@@ -170,8 +171,8 @@ class MainWindow(QWidget, From_Main):
                 tcp_X['confidence_score'] = tcp_prediction_probs_max
 
                 tcp_table = tabulate(tcp_X, headers='keys')
-                # print(tcp_table)
-                self.all_data = tcp_X
+                print(tcp_table)
+                self.all_data_tcp = tcp_X
             else:
                 print('No TCP packets found.')
                 tcp_predictions = []
@@ -186,8 +187,8 @@ class MainWindow(QWidget, From_Main):
                 ip_X['confidence_score'] = ip_prediction_probs_max
                 # format ip detection
                 ip_table = tabulate(ip_X, headers='keys')
-                # print(ip_table)
-                self.all_data = ip_X
+                print(ip_table)
+                self.all_data_ip = ip_X
             else:
                 print('No IP packets found.')
                 ip_predictions = []
@@ -195,19 +196,36 @@ class MainWindow(QWidget, From_Main):
         except:
             print(path)
 
-    def dataHead(self):
+    def dataHead_tcp(self):
         numColomn = self.spinBox.value()
         if numColomn == 0:
-            NumRows = len(self.all_data.index)
+            NumRows = len(self.all_data_tcp.index)
         else:
             NumRows = numColomn
-        self.tableWidget.setColumnCount(len(self.all_data.columns))
+        self.tableWidget.setColumnCount(len(self.all_data_tcp.columns))
         self.tableWidget.setRowCount(NumRows)
-        self.tableWidget.setHorizontalHeaderLabels(self.all_data.columns)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data_tcp.columns)
 
         for i in range(NumRows):
-            for j in range(len(self.all_data.columns)):
-                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data.iat[i, j])))
+            for j in range(len(self.all_data_tcp.columns)):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data_tcp.iat[i, j])))
+
+        self.tableWidget.resizeColumnsToContents()
+        self.tableWidget.resizeRowsToContents()
+
+    def dataHead_ip(self):
+        numColomn = self.spinBox.value()
+        if numColomn == 0:
+            NumRows = len(self.all_data_ip.index)
+        else:
+            NumRows = numColomn
+        self.tableWidget.setColumnCount(len(self.all_data_ip.columns))
+        self.tableWidget.setRowCount(NumRows)
+        self.tableWidget.setHorizontalHeaderLabels(self.all_data_ip.columns)
+
+        for i in range(NumRows):
+            for j in range(len(self.all_data_ip.columns)):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(self.all_data_ip.iat[i, j])))
 
         self.tableWidget.resizeColumnsToContents()
         self.tableWidget.resizeRowsToContents()
