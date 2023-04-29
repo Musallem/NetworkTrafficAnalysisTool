@@ -1,0 +1,338 @@
+import os
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.uic import loadUi
+import pandas as pd
+from nfstream import NFStreamer
+
+
+class Interface(QMainWindow):
+    def __init__(self):
+      super(Interface, self).__init__()
+      loadUi("MainGUI.ui",self)
+      
+    def setupUi(self, Interface):
+        Interface.resize(883, 500)
+        sizePolicy = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(Interface.sizePolicy().hasHeightForWidth())
+        Interface.setSizePolicy(sizePolicy)
+        Interface.setMinimumSize(QSize(760, 500))
+        Interface.setMaximumSize(QSize(100000, 1000000))
+
+        font = QFont()
+        font.setFamily(u"Lato Thin")
+        font.setPointSize(16)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        font.setKerning(False)
+        font.setStyleStrategy(QFont.PreferDefault)
+        Interface.setFont(font)
+        Interface.setLayoutDirection(Qt.LeftToRight)
+        Interface.setAutoFillBackground(True)
+        Interface.setStyleSheet(
+            u"background-color:  qradialgradient(spread:pad, cx:0.442584, cy:0.244318, radius:2, fx:0, fy:0.477, stop:0.186603 rgba(22, 0, 110, 255), stop:1 rgba(255, 255, 255, 255));\n"
+            "color: rgb(255, 255, 255);")
+        Interface.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        Interface.setAnimated(True)
+        Interface.setDocumentMode(False)
+        Interface.setTabShape(QTabWidget.Rounded)
+        Interface.setDockNestingEnabled(True)
+        Interface.setDockOptions(QMainWindow.AllowNestedDocks | QMainWindow.AllowTabbedDocks | QMainWindow.AnimatedDocks | QMainWindow.GroupedDragging)
+        Interface.setUnifiedTitleAndToolBarOnMac(True)
+        self.actionOpen = QAction(Interface)
+        self.actionOpen.setObjectName(u"actionOpen")
+        font1 = QFont()
+        self.actionOpen.setFont(font1)
+        self.actionRecent = QAction(Interface)
+        self.actionRecent.setObjectName(u"actionRecent")
+        self.actionSave = QAction(Interface)
+        self.actionSave.setObjectName(u"actionSave")
+        self.actionSave_as = QAction(Interface)
+        self.actionSave_as.setObjectName(u"actionSave_as")
+        self.actionPrint = QAction(Interface)
+        self.actionPrint.setObjectName(u"actionPrint")
+        self.actionClose = QAction(Interface)
+        self.actionClose.setObjectName(u"actionClose")
+        self.actionExit = QAction(Interface)
+        self.actionExit.setObjectName(u"actionExit")
+        self.actionUndo = QAction(Interface)
+        self.actionUndo.setObjectName(u"actionUndo")
+        self.actionCut = QAction(Interface)
+        self.actionCut.setObjectName(u"actionCut")
+        self.actionCopy = QAction(Interface)
+        self.actionCopy.setObjectName(u"actionCopy")
+        self.actionPaste = QAction(Interface)
+        self.actionPaste.setObjectName(u"actionPaste")
+        self.actionSelect = QAction(Interface)
+        self.actionSelect.setObjectName(u"actionSelect")
+        self.actionSelect_All = QAction(Interface)
+        self.actionSelect_All.setObjectName(u"actionSelect_All")
+        self.actionTheme = QAction(Interface)
+        self.actionTheme.setObjectName(u"actionTheme")
+        self.actionZoom_in = QAction(Interface)
+        self.actionZoom_in.setObjectName(u"actionZoom_in")
+        self.actionZoom_out = QAction(Interface)
+        self.actionZoom_out.setObjectName(u"actionZoom_out")
+        self.actionFont = QAction(Interface)
+        self.actionFont.setObjectName(u"actionFont")
+        self.actionPrefrences = QAction(Interface)
+        self.actionPrefrences.setObjectName(u"actionPrefrences")
+        self.actionPrefrences.setFont(font2)
+        self.actionAbout = QAction(Interface)
+        self.actionAbout.setObjectName(u"actionAbout")
+        self.actionDark_Light_Mode = QAction(Interface)
+        self.actionDark_Light_Mode.setObjectName(u"actionDark_Light_Mode")
+        
+        
+        
+        self.centralwidget = QWidget(Interface)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setMinimumSize(QSize(0, 400))
+        self.centralwidget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+                                         "color: rgb(0, 0, 86);")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        
+        
+        
+        self.q3l = QLabel(self.centralwidget)
+        self.q3l.setObjectName(u"q3l")
+        self.q3l.setStyleSheet(u"font: 12pt \"Courier 10 Pitch\";")
+        self.gridLayout.addWidget(self.q3l, 8, 0, 1, 1)
+
+
+
+
+        self.NMapButton = QPushButton(self.centralwidget)
+        self.NMapButton.setObjectName(u"NMapButton")
+        font3 = QFont()
+        font3.setFamily(u"C059 [urw]")
+        font3.setPointSize(16)
+        font3.setBold(True)
+        font3.setWeight(75)
+        self.NMapButton.setFont(font3)
+        self.NMapButton.setLayoutDirection(Qt.LeftToRight)
+        self.NMapButton.setAutoFillBackground(False)
+        self.NMapButton.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+                                      "background-color: rgb(50, 0, 0);")
+
+        self.gridLayout.addWidget(self.NMapButton, 9, 0, 1, 1)
+
+        self.q2l = QLabel(self.centralwidget)
+        self.q2l.setObjectName(u"q2l")
+        self.q2l.setStyleSheet(u"font: 12pt \"Courier 10 Pitch\";\n"
+                               "")
+
+        self.gridLayout.addWidget(self.q2l, 10, 0, 1, 1)
+
+
+
+
+
+
+
+        # importing pcap for offline analysis
+        self.TrafficAnalysisButton1 = QPushButton(self.centralwidget)
+        self.buttonGroup.addButton(self.TrafficAnalysisButton1)
+        self.TrafficAnalysisButton1.setObjectName(u"TrafficAnalysisButton1")
+        self.TrafficAnalysisButton1.setFont(font3)
+        self.TrafficAnalysisButton1.setLayoutDirection(Qt.LeftToRight)
+        self.TrafficAnalysisButton1.setAutoFillBackground(False)
+        self.TrafficAnalysisButton1.setStyleSheet(
+            u"background-color: rgb(119, 118, 123);")
+        self.gridLayout.addWidget(self.TrafficAnalysisButton1, 6, 0, 1, 1)
+        self.TrafficAnalysisButton1.clicked.connect(self.import_file())
+
+
+        self.TrafficAnalysisButton2 = QPushButton(self.centralwidget)
+        self.TrafficAnalysisButton2.setObjectName(u"TrafficAnalysisButton2")
+        self.TrafficAnalysisButton2.setFont(font3)
+        self.TrafficAnalysisButton2.setLayoutDirection(Qt.LeftToRight)
+        self.TrafficAnalysisButton2.setAutoFillBackground(False)
+        self.TrafficAnalysisButton2.setStyleSheet(u"background-color: rgb(119, 118, 123);")
+
+        self.gridLayout.addWidget(self.TrafficAnalysisButton2, 7, 0, 1, 1)
+
+        self.q3l_2 = QLabel(self.centralwidget)
+        self.q3l_2.setObjectName(u"q3l_2")
+        self.q3l_2.setStyleSheet(u"font: 12pt \"Courier 10 Pitch\";")
+
+        self.gridLayout.addWidget(self.q3l_2, 5, 0, 1, 1)
+
+        self.CovertChButton = QPushButton(self.centralwidget)
+        self.CovertChButton.setObjectName(u"CovertChButton")
+        font4 = QFont()
+        font4.setFamily(u"C059 [urw]")
+        font4.setPointSize(16)
+        font4.setBold(True)
+        font4.setItalic(False)
+        font4.setUnderline(False)
+        font4.setWeight(75)
+        self.CovertChButton.setFont(font4)
+        self.CovertChButton.setLayoutDirection(Qt.LeftToRight)
+        self.CovertChButton.setAutoFillBackground(False)
+        self.CovertChButton.setStyleSheet(u"color: rgb(255, 255, 255);\n"
+                                          "background-color: rgb(50, 0, 0);")
+
+        self.gridLayout.addWidget(self.CovertChButton, 11, 0, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.gridLayout.addItem(self.verticalSpacer, 4, 0, 1, 1)
+
+        self.NTATLABEL = QLabel(self.centralwidget)
+        self.NTATLABEL.setObjectName(u"NTATLABEL")
+        palette = QPalette()
+        brush = QBrush(QColor(0, 0, 86, 255))
+        brush.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        brush1 = QBrush(QColor(255, 255, 255, 255))
+        brush1.setStyle(Qt.SolidPattern)
+        palette.setBrush(QPalette.Active, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Text, brush)
+        palette.setBrush(QPalette.Active, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Active, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Active, QPalette.Window, brush1)
+        # if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Active, QPalette.PlaceholderText, brush)
+        # endif
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Text, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Inactive, QPalette.Window, brush1)
+        # if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Inactive, QPalette.PlaceholderText, brush)
+        # endif
+        palette.setBrush(QPalette.Disabled, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Button, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Text, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.ButtonText, brush)
+        palette.setBrush(QPalette.Disabled, QPalette.Base, brush1)
+        palette.setBrush(QPalette.Disabled, QPalette.Window, brush1)
+        # if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette.Disabled, QPalette.PlaceholderText, brush)
+        # endif
+        self.NTATLABEL.setPalette(palette)
+        font5 = QFont()
+        font5.setFamily(u"cmr10")
+        font5.setPointSize(41)
+        font5.setBold(True)
+        font5.setItalic(False)
+        font5.setWeight(75)
+        self.NTATLABEL.setFont(font5)
+        self.NTATLABEL.setContextMenuPolicy(Qt.PreventContextMenu)
+        self.NTATLABEL.setAutoFillBackground(False)
+        self.NTATLABEL.setStyleSheet(u"")
+        self.NTATLABEL.setFrameShape(QFrame.NoFrame)
+        self.NTATLABEL.setFrameShadow(QFrame.Sunken)
+        self.NTATLABEL.setTextFormat(Qt.AutoText)
+        self.NTATLABEL.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self.NTATLABEL.setMargin(40)
+        self.NTATLABEL.setIndent(0)
+        self.NTATLABEL.setTextInteractionFlags(Qt.NoTextInteraction)
+
+        self.gridLayout.addWidget(self.NTATLABEL, 2, 0, 2, 1)
+
+        Interface.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(Interface)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 883, 25))
+        self.menuFile = QMenu(self.menubar)
+        self.menuFile.setObjectName(u"menuFile")
+        font6 = QFont()
+        font6.setFamily(u"Cantarell")
+        font6.setBold(False)
+        font6.setItalic(False)
+        font6.setWeight(50)
+        self.menuFile.setFont(font6)
+        self.menuSettings = QMenu(self.menubar)
+        self.menuSettings.setObjectName(u"menuSettings")
+        self.menuHelp = QMenu(self.menubar)
+        self.menuHelp.setObjectName(u"menuHelp")
+        self.menuEdit = QMenu(self.menubar)
+        self.menuEdit.setObjectName(u"menuEdit")
+        self.menuView = QMenu(self.menubar)
+        self.menuView.setObjectName(u"menuView")
+        Interface.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(Interface)
+        self.statusbar.setObjectName(u"statusbar")
+        Interface.setStatusBar(self.statusbar)
+        QWidget.setTabOrder(self.NMapButton, self.CovertChButton)
+        QWidget.setTabOrder(self.CovertChButton, self.TrafficAnalysisButton2)
+
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuEdit.menuAction())
+        self.menubar.addAction(self.menuView.menuAction())
+        self.menubar.addAction(self.menuSettings.menuAction())
+        self.menubar.addAction(self.menuHelp.menuAction())
+        self.menuFile.addAction(self.actionOpen)
+        self.menuFile.addAction(self.actionRecent)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionSave_as)
+        self.menuFile.addAction(self.actionPrint)
+        self.menuFile.addSeparator()
+        self.menuFile.addAction(self.actionClose)
+        self.menuFile.addAction(self.actionExit)
+        self.menuSettings.addAction(self.actionPrefrences)
+        self.menuHelp.addAction(self.actionAbout)
+        self.menuEdit.addAction(self.actionUndo)
+        self.menuEdit.addAction(self.actionCut)
+        self.menuEdit.addAction(self.actionCopy)
+        self.menuEdit.addAction(self.actionPaste)
+        self.menuEdit.addAction(self.actionSelect)
+        self.menuEdit.addAction(self.actionSelect_All)
+        self.menuView.addAction(self.actionZoom_in)
+        self.menuView.addAction(self.actionZoom_out)
+        self.menuView.addAction(self.actionFont)
+        self.menuView.addAction(self.actionDark_Light_Mode)
+
+        QMetaObject.connectSlotsByName(Interface)
+
+        self.actionRecent.setText(QCoreApplication.translate("Interface", u"Recent", None))
+        self.actionSave.setText(QCoreApplication.translate("Interface", u"Save", None))
+        self.actionSave_as.setText(QCoreApplication.translate("Interface", u"Save as...", None))
+        self.actionPrint.setText(QCoreApplication.translate("Interface", u"Print...", None))
+        self.actionClose.setText(QCoreApplication.translate("Interface", u"Close", None))
+        self.actionExit.setText(QCoreApplication.translate("Interface", u"Exit", None))
+        self.actionUndo.setText(QCoreApplication.translate("Interface", u"Undo", None))
+        self.actionCut.setText(QCoreApplication.translate("Interface", u"Cut", None))
+        self.actionCopy.setText(QCoreApplication.translate("Interface", u"Copy", None))
+        self.actionPaste.setText(QCoreApplication.translate("Interface", u"Paste", None))
+        self.actionSelect.setText(QCoreApplication.translate("Interface", u"Select ", None))
+        self.actionSelect_All.setText(QCoreApplication.translate("Interface", u"Select All", None))
+        self.actionTheme.setText(QCoreApplication.translate("Interface", u"Theme", None))
+        self.actionZoom_in.setText(QCoreApplication.translate("Interface", u"Zoom in", None))
+        self.actionZoom_out.setText(QCoreApplication.translate("Interface", u"Zoom out", None))
+        self.actionFont.setText(QCoreApplication.translate("Interface", u"Font", None))
+        self.actionPrefrences.setText(QCoreApplication.translate("Interface", u"Prefrences", None))
+        self.actionAbout.setText(QCoreApplication.translate("Interface", u"About", None))
+        self.actionDark_Light_Mode.setText(QCoreApplication.translate("Interface", u"Dark/Light Mode ", None))
+        self.q3l.setText(QCoreApplication.translate("Interface", u"Show the Hosts and their Ports...", None))
+        self.NMapButton.setText(QCoreApplication.translate("Interface", u"Network Mapping | Hosts and Ports", None))
+        self.q2l.setText(
+            QCoreApplication.translate("Interface", u"Is there any hidden data travelling in your network?", None))
+        self.TrafficAnalysisButton2.setText(
+            QCoreApplication.translate("Interface", u"Traffic Analysis | Live Capture", None))
+        self.q3l_2.setText(QCoreApplication.translate("Interface", u"Are you connected? ", None))
+        self.TrafficAnalysisButton1.setText(
+            QCoreApplication.translate("Interface", u"Traffic Analysis | Import Pcap", None))
+        self.CovertChButton.setText(QCoreApplication.translate("Interface", u"Detect Covert Channels", None))
+        self.NTATLABEL.setText(QCoreApplication.translate("Interface", u"Network Traffic Analysis Tool", None))
+        self.menuFile.setTitle(QCoreApplication.translate("Interface", u"File", None))
+        self.menuSettings.setTitle(QCoreApplication.translate("Interface", u"Settings", None))
+        self.menuHelp.setTitle(QCoreApplication.translate("Interface", u"Help", None))
+        self.menuEdit.setTitle(QCoreApplication.translate("Interface", u"Edit", None))
+        self.menuView.setTitle(QCoreApplication.translate("Interface", u"View", None))
+
+Interface=QMainWindow(sys.argv)
+window = Interface()
+window.show
+sys.exit(Interface.exec())
