@@ -66,9 +66,9 @@ imputer = KNNImputer()
 scriptDir = dirname(realpath(__file__))
 From_Main, _ = loadUiType(join(dirname(__file__), "DetectCovertChannel.ui"))
 
-class MainWindow(QWidget, From_Main):
+class CcdWindow(QWidget, From_Main):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super(CcdWindow, self).__init__()
         QWidget.__init__(self)
         self.setupUi(self)
 
@@ -214,7 +214,4 @@ class MainWindow(QWidget, From_Main):
         self.tableWidget_2.resizeRowsToContents()
 
 
-app = QApplication(sys.argv)
-sheet = MainWindow()
-sheet.show()
-sys.exit(app.exec_())
+
